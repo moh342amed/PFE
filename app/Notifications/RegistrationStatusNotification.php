@@ -42,37 +42,29 @@ class RegistrationStatusNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         $eventTitle = $this->registration->event->title;
-        $statusText = $this->status === 'approved' ? 'ACCEPTED ✅' : 'REJECTED ❌';
-
+        $qrCodeRaw = QrCode::format('svg')->size(200)->color(0, 0, 0)->generate(url('/admin/registrations?search=' . $this->registration->id));
+        $qrCodeBase64 = base64_encode($qrCodeRaw);
+        
         $mail = (new MailMessage)
                     ->subject("Registration Status Update: {$eventTitle}")
-                    ->greeting("Hello, {$notifiable->name}!")
-                    ->line("![University Logo](https://www.univ-eloued.dz/wp-content/uploads/2024/03/logouef.png)")
-                    ->line("Your registration request for the event \"{$eventTitle}\" has been {$statusText}.");
+                    ->view('emails.registration-status', [
+                        'user' => $notifiable,
+                        'registration' => $this->registration,
+                        'status' => $this->status,
+                        'qrCode' => $qrCodeBase64
+                    ]);
 
         if ($this->status === 'approved') {
-            $mail->line("Congratulations! Please find your official entry ticket attached to this email.")
-                 ->line("You can also view your digital ticket anytime in your student dashboard.")
-                 ->action('View My Dashboard', url('/dashboard'));
-
             // Generate PDF Ticket for Attachment
-            $qrCode = base64_encode(QrCode::format('png')->size(200)->color(0, 0, 0)->generate(url('/admin/registrations?search=' . $this->registration->id)));
-            
             $pdf = Pdf::loadView('user.applications.ticket-pdf', [
                 'registration' => $this->registration,
-                'qrCode' => $qrCode
+                'qrCode' => $qrCodeBase64
             ]);
 
             $mail->attachData($pdf->output(), "Official_Ticket_{$this->registration->id}.pdf", [
                 'mime' => 'application/pdf',
             ]);
-        } else {
-            $mail->line("We regret to inform you that we cannot accommodate your registration at this time.")
-                 ->line("Feel free to explore other upcoming events on our platform.");
         }
-
-        $mail->line('Thank you for choosing the University of El Oued!')
-             ->salutation('Official Event Management System');
              
         return $mail;
     }

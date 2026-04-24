@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // User Applications
     Route::get('/my-applications', [RegistrationController::class, 'index'])->name('my.applications');
     Route::post('/events/{event}/register', [RegistrationController::class, 'store'])->name('events.register');
+    Route::get('/tickets/{registration}', [\App\Http\Controllers\TicketController::class, 'show'])->name('registrations.ticket');
 });
 
 // Admin Routes

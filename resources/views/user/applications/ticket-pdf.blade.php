@@ -59,7 +59,7 @@
 
         <div class="stub">
             <div class="qr-box">
-                <img src="data:image/png;base64,{{ $qrCode }}" width="120" alt="QR Code">
+                <img src="data:image/svg+xml;base64,{{ $qrCode }}" width="120" alt="QR Code">
             </div>
             <div class="label" style="margin-bottom: 10px;">SCAN FOR OFFICIAL ENTRY</div>
             <p class="footer-text">This ticket is electronically generated and verified via the Official University Event Management System.</p>
