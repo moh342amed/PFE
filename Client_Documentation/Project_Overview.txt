@@ -1,0 +1,23 @@
+EL OUED UNIVERSITY: EVENT MANAGEMENT SYSTEM
+PROJECT DOCUMENTATION OVERVIEW
+
+This folder contains the architectural blueprints and process diagrams for the Event Management System.
+
+CONTENTS:
+
+1. 01_System_Use_Cases.png
+   - Describes the different user roles (Admin, Student, Professor) and the specific features available to each.
+
+2. 02_Database_Architecture.png
+   - A technical blueprint showing the relationships between Users, Events, and Registrations.
+
+3. 03_Registration_Flow.png
+   - A step-by-step visualization of the user journey, from browsing events to successfully registering.
+
+4. 04_Registration_Lifecycle.png
+   - Shows how an application status moves from 'Pending' to 'Approved' or 'Rejected' by the system administrator.
+
+---
+Prepared by: Antigravity AI
+Project: ElOued University Event Management System
+Date: April 23, 2026
